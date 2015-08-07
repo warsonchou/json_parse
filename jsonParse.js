@@ -144,7 +144,7 @@ var jsonParse =  function() {
 				return array;
 			}
 			while(currentChar) {
-				array.push(value()); ///?
+				array.push(value()); 
 				white();
 				if (currentChar === ']') {
 					next(']');
@@ -168,7 +168,7 @@ var jsonParse =  function() {
 			}
 			while (currentChar) {
 				key = string();
-				while();
+				white();
 				next(':');
 				object[key] = value();
 				white();
@@ -184,16 +184,19 @@ var jsonParse =  function() {
 	},
 	//解析一个json值， 它可以是一个对象， 数组，字符串，数字，或者一个词
 	value = function() {
-		case '{':
-			return object();
-		case '[':
-			return array();
-		case '-': 
-			return number();
-		case '"':
-			return string();
-		default:
-			return currentChar >= '0' && currentChar <= '9' ? number() : word();
+		white();
+		switch(currentChar) {
+			case '{':
+				return object();
+			case '[':
+				return array();
+			case '-': 
+				return number();
+			case '"':
+				return string();
+			default:
+				return currentChar >= '0' && currentChar <= '9' ? number() : word();
+		}
 	};
 	//返回json_parse函数， 它将能访问上述变量和函数
 	return function(source, reviver) {
